@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Question...</title>
     <style>
-        body { margin: 0; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; font-family: sans-serif; }
+        body { margin: 0; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; font-family: sans-serif; background: #000; }
         .slideshow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .slideshow img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: slide 24s infinite; }
         .slideshow img:nth-child(1) { animation-delay: 0s; } .slideshow img:nth-child(2) { animation-delay: 3s; }
@@ -14,24 +14,15 @@
         .slideshow img:nth-child(7) { animation-delay: 18s; } .slideshow img:nth-child(8) { animation-delay: 21s; }
         @keyframes slide { 0%, 15% { opacity: 0; } 20%, 35% { opacity: 1; } 40%, 100% { opacity: 0; } }
         
-        .box { background: rgba(255, 255, 255, 0.7); padding: 40px; border-radius: 20px; text-align: center; backdrop-filter: blur(5px); width: 300px; z-index: 10; }
-        h1 { color: #d63384; font-size: 1.8rem; margin-bottom: 25px; }
-        .buttons { display: flex; justify-content: center; gap: 20px; }
+        .box { background: rgba(255, 255, 255, 0.8); padding: 40px; border-radius: 20px; text-align: center; backdrop-filter: blur(5px); z-index: 10; width: 280px; }
+        h1 { color: #d63384; font-size: 1.8rem; margin-bottom: 30px; }
+        .btn-wrap { display: flex; justify-content: center; gap: 20px; position: relative; height: 50px; }
         button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; font-size: 1rem; }
-        .yes-btn { background: #ff4d6d; color: white; transition: 0.3s; }
-        .yes-btn:hover { transform: scale(1.1); }
-        
-        /* The No button with smooth movement */
-        .no-btn { 
-            background: #555; color: white; 
-            position: absolute; /* Changed to absolute to allow free movement */
-            transition: all 0.2s ease;
-            z-index: 100;
-        }
-        .btn-container { position: relative; height: 50px; width: 100%; }
+        .yes-btn { background: #ff4d6d; color: white; z-index: 11; }
+        .no-btn { background: #555; color: white; position: absolute; transition: 0.2s ease; z-index: 12; left: 150px; }
     </style>
 </head>
-<body onclick="document.getElementById('bean').play()">
+<body onclick="playMusic()">
     <audio id="bean" src="Mr. Bean Cartoon Intro Song (Piano Tutorial) #pianotutorial #shorts.mp3" loop></audio>
 
     <div class="slideshow">
@@ -41,21 +32,23 @@
 
     <div class="box">
         <h1>Will you be my Valentine? 💘</h1>
-        <div class="btn-container">
+        <div class="btn-wrap">
             <button class="yes-btn" onclick="location.href='yes.html'">YES! 😍</button>
             <button class="no-btn" id="noBtn" onmouseover="moveBtn()" ontouchstart="moveBtn()">NO 😢</button>
         </div>
     </div>
 
     <script>
+        function playMusic() {
+            document.getElementById('bean').play().catch(e => console.log("Audio play error"));
+        }
+
         function moveBtn() {
-            // Calculate random positions within the visible window
-            // Subtracting button width/height so it doesn't go off-screen
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 50);
-            
+            // Keep button within 10% to 80% of screen to prevent "disappearing"
+            const x = Math.random() * (window.innerWidth - 120);
+            const y = Math.random() * (window.innerHeight - 60);
             const btn = document.getElementById('noBtn');
-            btn.style.position = 'fixed'; // Fixed makes it move relative to the whole screen
+            btn.style.position = 'fixed'; 
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
         }
