@@ -3,39 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Are you ready?</title>
+    <title>Get Ready...</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: url('suspence.jpg') no-repeat center center/cover;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
+            margin: 0; padding: 0; height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            background: url('suspense.jpg') no-repeat center center/cover;
+            font-family: 'Arial', sans-serif; overflow: hidden;
         }
         .box {
             background: rgba(255, 255, 255, 0.85);
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            max-width: 80%;
-            cursor: pointer;
+            padding: 30px; border-radius: 20px; text-align: center;
+            max-width: 80%; cursor: pointer;
         }
-        h1 { font-size: 1.5rem; color: #333; }
-        p { font-size: 1rem; color: #555; }
+        h1 { font-size: 1.4rem; color: #333; }
     </style>
 </head>
 <body onclick="startSequence()">
-
-    <audio id="audio" src="thriller.mp3"></audio>
+    <audio id="thriller" src="Thriller_-_Cinematic_Background_Music_for_video(256k).mp3"></audio>
 
     <div class="box">
         <h1>You’re really excited to see what’s coming next… 😌✨</h1>
-        <p>(Tap to continue)</p>
+        <p>Tap to continue</p>
     </div>
 
     <script>
@@ -43,13 +32,8 @@
         function startSequence() {
             if(started) return;
             started = true;
-            
-            var audio = document.getElementById("audio");
-            audio.play().catch(error => console.log("Audio playback failed:", error));
-
-            setTimeout(() => {
-                window.location.href = "question.html";
-            }, 5000);
+            document.getElementById("thriller").play();
+            setTimeout(() => { window.location.href = "question.html"; }, 5000);
         }
     </script>
 </body>
