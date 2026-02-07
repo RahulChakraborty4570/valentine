@@ -81,7 +81,7 @@
 <body onclick="playMusic()">
 
 <!-- Audio -->
-<audio id="bgm" src="b1.mp3" loop preload="auto"></audio>
+<audio id="b1" src="b1.mp3" loop preload="auto"></audio>
 
 <!-- Slideshow Background -->
 <div class="slideshow"></div>
@@ -94,13 +94,20 @@
         <button class="no-btn" id="noBtn" onmouseover="moveBtn()" ontouchstart="moveBtn()">NO 😢</button>
     </div>
 </div>
+script>
+        const audio = document.getElementById('bean');
 
-<script>
-    // Play audio after first tap anywhere
-    function playMusic() {
-        const audio = document.getElementById('bgm');
-        audio.play().catch(e => console.log("Audio waiting for tap..."));
-    }
+        // Automatic Start Logic
+        window.onload = function() {
+            audio.play().catch(e => {
+                console.log("Auto-play blocked; waiting for click.");
+            });
+        };
+
+        // Safety Trigger: if auto-play fails, it starts on first click
+        function playMusic() {
+            audio.play();
+        }
 
     // Move NO button randomly WITHIN SCREEN BOUNDARIES
     function moveBtn() {
