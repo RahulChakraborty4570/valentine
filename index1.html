@@ -8,9 +8,10 @@
         body {
             margin: 0; padding: 0; height: 100vh;
             display: flex; justify-content: center; align-items: center;
-            /* Updated background image name */
-            background: url('s1.jpg') no-repeat center center/cover;
+            /* Added ?v=1 to the end to trick the browser into loading it fresh */
+            background: url('s1_v2.jpg') no-repeat center center/cover;
             font-family: 'Arial', sans-serif; overflow: hidden;
+            background-color: #000; /* Fallback color */
         }
         .box {
             background: rgba(255, 255, 255, 0.85);
@@ -23,7 +24,6 @@
         }
         h1 { font-size: 1.5rem; color: #333; margin: 0; }
         p { color: #d63384; font-weight: bold; margin-top: 10px; }
-
         @keyframes fadeIn { 
             from { opacity: 0; transform: translateY(20px); } 
             to { opacity: 1; transform: translateY(0); } 
@@ -37,4 +37,3 @@
     </div>
 </body>
 </html>
-
