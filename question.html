@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Question...</title>
     <style>
-        /* Reset and Base Styles */
         body { 
             margin: 0; 
             height: 100vh; 
@@ -14,10 +13,10 @@
             justify-content: center; 
             align-items: center; 
             font-family: 'Arial', sans-serif; 
-            background-color: #000;
+            background: #000;
         }
 
-        /* Instant Slideshow Logic */
+        /* Instant Slideshow - No Fading Delays */
         .slideshow { 
             position: fixed; 
             top: 0; left: 0; width: 100%; height: 100%; 
@@ -28,9 +27,9 @@
             width: 100%; height: 100%; 
             object-fit: cover; 
             opacity: 0; 
-            animation: slideShowAnim 24s infinite;
+            /* Linear transition for instant switching */
+            animation: instantSlide 24s infinite linear;
         }
-        /* bg1.jpg starts at 100% opacity immediately */
         .slideshow img:nth-child(1) { opacity: 1; animation-delay: 0s; }
         .slideshow img:nth-child(2) { animation-delay: 3s; }
         .slideshow img:nth-child(3) { animation-delay: 6s; }
@@ -40,12 +39,11 @@
         .slideshow img:nth-child(7) { animation-delay: 18s; }
         .slideshow img:nth-child(8) { animation-delay: 21s; }
 
-        @keyframes slideShowAnim {
-            0%, 12.5% { opacity: 1; } /* Visible for 3 seconds */
-            15%, 100% { opacity: 0; }
+        @keyframes instantSlide {
+            0%, 12.5% { opacity: 1; }
+            12.6%, 100% { opacity: 0; }
         }
 
-        /* Static Center Box */
         .box { 
             background: rgba(255, 255, 255, 0.85); 
             padding: 40px; 
@@ -54,18 +52,18 @@
             backdrop-filter: blur(10px); 
             z-index: 10; 
             width: 300px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
         }
 
         h1 { color: #d63384; font-size: 1.8rem; margin-bottom: 30px; }
 
-        /* Parallel Button Container */
+        /* Buttons side-by-side */
         .btn-wrap { 
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            gap: 20px; /* This keeps them side-by-side */
-            width: 100%;
+            gap: 20px; 
         }
 
         button { 
@@ -78,13 +76,14 @@
             min-width: 100px;
         }
 
-        .yes-btn { background: #ff4d6d; color: white; }
+        .yes-btn { background: #ff4d6d; color: white; transition: 0.3s; }
+        .yes-btn:hover { transform: scale(1.1); }
 
-        /* No button starts in the flex flow, then goes fixed on interaction */
         .no-btn { 
             background: #555; 
             color: white; 
-            transition: 0.1s ease;
+            z-index: 100;
+            transition: 0.15s ease-out;
         }
     </style>
 </head>
@@ -109,16 +108,17 @@
         function moveBtn() {
             const btn = document.getElementById('noBtn');
             
-            // Boundary Constants
-            const margin = 50; 
-            const maxX = window.innerWidth - btn.offsetWidth - margin;
-            const maxY = window.innerHeight - btn.offsetHeight - margin;
+            // Set the boundary area (e.g., within 200px of the center box)
+            // This ensures it stays around the box and doesn't hit the screen edges
+            const padding = 150; 
+            
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
 
-            // Generate random position within safe screen bounds
-            const randomX = Math.max(margin, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(margin, Math.floor(Math.random() * maxY));
+            // Generate a random position that is restricted to the middle area of the screen
+            const randomX = (centerX - padding) + Math.random() * (padding * 2);
+            const randomY = (centerY - padding) + Math.random() * (padding * 2);
 
-            // Set position to fixed so it leaves the box and flies around the screen
             btn.style.position = 'fixed'; 
             btn.style.left = randomX + 'px';
             btn.style.top = randomY + 'px';
