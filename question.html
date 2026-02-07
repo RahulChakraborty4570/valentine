@@ -5,13 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Question...</title>
     <style>
-        body { margin: 0; height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; font-family: sans-serif; background: #000; }
-        
-        /* Instant Slideshow */
-        .slideshow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-        .slideshow img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: slide 24s infinite linear; }
-        
-        /* First image starts visible immediately */
+        /* Reset and Base Styles */
+        body { 
+            margin: 0; 
+            height: 100vh; 
+            overflow: hidden; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            font-family: 'Arial', sans-serif; 
+            background-color: #000;
+        }
+
+        /* Instant Slideshow Logic */
+        .slideshow { 
+            position: fixed; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: -1; 
+        }
+        .slideshow img { 
+            position: absolute; 
+            width: 100%; height: 100%; 
+            object-fit: cover; 
+            opacity: 0; 
+            animation: slideShowAnim 24s infinite;
+        }
+        /* bg1.jpg starts at 100% opacity immediately */
         .slideshow img:nth-child(1) { opacity: 1; animation-delay: 0s; }
         .slideshow img:nth-child(2) { animation-delay: 3s; }
         .slideshow img:nth-child(3) { animation-delay: 6s; }
@@ -21,24 +40,57 @@
         .slideshow img:nth-child(7) { animation-delay: 18s; }
         .slideshow img:nth-child(8) { animation-delay: 21s; }
 
-        @keyframes slide {
-            0%, 12.5% { opacity: 1; }
+        @keyframes slideShowAnim {
+            0%, 12.5% { opacity: 1; } /* Visible for 3 seconds */
             15%, 100% { opacity: 0; }
         }
-        
-        .box { background: rgba(255, 255, 255, 0.8); padding: 40px; border-radius: 20px; text-align: center; backdrop-filter: blur(5px); z-index: 10; width: 280px; }
+
+        /* Static Center Box */
+        .box { 
+            background: rgba(255, 255, 255, 0.85); 
+            padding: 40px; 
+            border-radius: 20px; 
+            text-align: center; 
+            backdrop-filter: blur(10px); 
+            z-index: 10; 
+            width: 300px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
         h1 { color: #d63384; font-size: 1.8rem; margin-bottom: 30px; }
-        
-        /* Parallel Buttons Layout */
-        .btn-wrap { display: flex; justify-content: center; align-items: center; gap: 20px; position: relative; height: 60px; }
-        
-        button { padding: 12px 25px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; font-size: 1rem; }
-        .yes-btn { background: #ff4d6d; color: white; z-index: 11; }
-        .no-btn { background: #555; color: white; position: relative; transition: 0.1s ease; z-index: 100; }
+
+        /* Parallel Button Container */
+        .btn-wrap { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 20px; /* This keeps them side-by-side */
+            width: 100%;
+        }
+
+        button { 
+            padding: 12px 25px; 
+            border-radius: 50px; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 1rem;
+            min-width: 100px;
+        }
+
+        .yes-btn { background: #ff4d6d; color: white; }
+
+        /* No button starts in the flex flow, then goes fixed on interaction */
+        .no-btn { 
+            background: #555; 
+            color: white; 
+            transition: 0.1s ease;
+        }
     </style>
 </head>
 <body onclick="document.getElementById('bean').play()">
-    <audio id="b1" src="b1.mp3" loop></audio>
+    
+    <audio id="bean" src="bean.mp3" loop></audio>
 
     <div class="slideshow">
         <img src="bg1.jpg"><img src="bg2.jpg"><img src="bg3.jpg"><img src="bg4.jpg">
@@ -56,12 +108,17 @@
     <script>
         function moveBtn() {
             const btn = document.getElementById('noBtn');
-            const maxX = window.innerWidth - btn.offsetWidth - 20;
-            const maxY = window.innerHeight - btn.offsetHeight - 20;
+            
+            // Boundary Constants
+            const margin = 50; 
+            const maxX = window.innerWidth - btn.offsetWidth - margin;
+            const maxY = window.innerHeight - btn.offsetHeight - margin;
 
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
+            // Generate random position within safe screen bounds
+            const randomX = Math.max(margin, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(margin, Math.floor(Math.random() * maxY));
 
+            // Set position to fixed so it leaves the box and flies around the screen
             btn.style.position = 'fixed'; 
             btn.style.left = randomX + 'px';
             btn.style.top = randomY + 'px';
