@@ -3,30 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Love</title>
+    <title>For My Baby</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .slideshow {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-        }
-        .slideshow img {
-            position: absolute;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            animation: slide 24s infinite;
-        }
+        body { margin: 0; height: 100vh; font-family: 'Poppins', sans-serif; overflow: hidden; display: flex; justify-content: center; align-items: center; background: #000; }
+        .slideshow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .slideshow img { position: absolute; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: slideAnimation 24s infinite; }
         .slideshow img:nth-child(1) { animation-delay: 0s; }
         .slideshow img:nth-child(2) { animation-delay: 3s; }
         .slideshow img:nth-child(3) { animation-delay: 6s; }
@@ -35,79 +17,38 @@
         .slideshow img:nth-child(6) { animation-delay: 15s; }
         .slideshow img:nth-child(7) { animation-delay: 18s; }
         .slideshow img:nth-child(8) { animation-delay: 21s; }
-
-        @keyframes slide {
-            0% { opacity: 0; } 10% { opacity: 1; } 20% { opacity: 1; } 30% { opacity: 0; } 100% { opacity: 0; }
-        }
-
-        .box {
-            background: rgba(255, 255, 255, 0.6);
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            max-width: 85%;
-            backdrop-filter: blur(3px);
-            z-index: 10;
-        }
-        h1 { font-size: 2.2rem; color: #d63384; }
-        p { font-size: 1.2rem; color: #333; font-weight: bold; }
-        
-        /* Floating Hearts */
-        .heart {
-            position: fixed;
-            color: #ff4d6d;
-            font-size: 2rem;
-            animation: floatUp 4s linear infinite;
-            z-index: 5;
-            bottom: -50px;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
-        }
+        @keyframes slideAnimation { 0% { opacity: 0; } 5% { opacity: 1; } 12.5% { opacity: 1; } 17.5% { opacity: 0; } 100% { opacity: 0; } }
+        .box { background: rgba(255, 255, 255, 0.4); padding: 40px; border-radius: 30px; text-align: center; max-width: 85%; backdrop-filter: blur(10px); z-index: 10; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; color: #ff4d6d; margin: 0; }
+        p { font-size: 1.2rem; color: #222; margin: 15px 0; }
+        .baby-text { color: #d63384; font-weight: bold; font-size: 1.5rem; display: block; }
+        .heart { position: fixed; color: #ff4d6d; font-size: 2rem; animation: floatUp 4s linear infinite; z-index: 5; bottom: -50px; pointer-events: none; }
+        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
     </style>
 </head>
-<body onclick="playAudio()">
-
-    <audio id="audio" src="valentime.mp3" loop></audio>
-
+<body onclick="document.getElementById('music').play()">
+    <audio id="music" src="valentine.mp3" loop></audio>
     <div class="slideshow">
-        <img src="image1.jpg" alt="img1">
-        <img src="image2.jpg" alt="img2">
-        <img src="image3.jpg" alt="img3">
-        <img src="image4.jpg" alt="img4">
-        <img src="image5.jpg" alt="img5">
-        <img src="image6.jpg" alt="img6">
-        <img src="image7.jpg" alt="img7">
-        <img src="image8.jpg" alt="img8">
+        <img src="bg1.jpg"><img src="bg2.jpg"><img src="bg3.jpg"><img src="bg4.jpg">
+        <img src="bg5.jpg"><img src="bg6.jpg"><img src="bg7.jpg"><img src="bg8.jpg">
     </div>
-
     <div class="box">
         <h1>Konkona, my love… 💕</h1>
         <p>Every heartbeat whispers your name…</p>
-        <p>💖💖💖</p>
+        <span class="baby-text">I love you so much, Baby! 💖</span>
     </div>
-
     <script>
-        function playAudio() {
-            var audio = document.getElementById("audio");
-            audio.play().catch(e => console.log("Click to play"));
-        }
-
         function createHeart() {
             const heart = document.createElement("div");
             heart.classList.add("heart");
-            heart.innerHTML = "❤";
+            heart.innerHTML = ["❤", "💖", "💕", "💗"][Math.floor(Math.random() * 4)];
             heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = Math.random() * 2 + 3 + "s"; 
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
             document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+            setTimeout(() => heart.remove(), 5000);
         }
-
-        setInterval(createHeart, 300);
+        setInterval(createHeart, 350);
     </script>
 </body>
 </html>
